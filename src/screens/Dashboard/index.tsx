@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import moment from 'moment';
 import 'moment/locale/pt-br';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { useTheme } from 'styled-components';
 
@@ -127,10 +127,6 @@ export function Dashboard() {
 
     setIsLoading(false);
   }
-
-  useEffect(() => {
-    loadTransaction();
-  }, []);
 
   useFocusEffect(
     useCallback(() => {

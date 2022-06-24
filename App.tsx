@@ -9,6 +9,7 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
 import React from 'react';
+import { StatusBar } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ThemeProvider } from 'styled-components';
 
@@ -31,6 +32,7 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <NavigationContainer>
+          <StatusBar barStyle="light-content" backgroundColor={theme.colors.primary} />
           <AppRoutes />
         </NavigationContainer>
       </GestureHandlerRootView>

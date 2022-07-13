@@ -2,6 +2,7 @@ import { HistoryCard } from '@components/HistoryCard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useFocusEffect } from '@react-navigation/native';
+import { useAuth } from '@src/hooks/auth';
 import moment from 'moment';
 import React, { useCallback, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
@@ -38,7 +39,9 @@ export function Resume() {
   const [selectedDate, setSelectedDate] = useState(moment());
   const [totalByCategories, setTotalByCategories] = useState<CategoryData[]>([]);
 
+  const { user } = useAuth();
   const theme = useTheme();
+  const dataKey = `@gofinances:transactions_user:${user.id}`;
 
   function handleDateChange(action: 'next' | 'prev') {
     if (action === 'next') {
@@ -52,7 +55,6 @@ export function Resume() {
 
   async function loadData() {
     setIsLoading(true);
-    const dataKey = '@gofinances:transactions';
     const response = await AsyncStorage.getItem(dataKey);
     const responseFormatted = response ? JSON.parse(response) : [];
 

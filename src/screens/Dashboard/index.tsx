@@ -8,6 +8,7 @@ import { useTheme } from 'styled-components';
 
 import { HighlightCard } from '../../components/HighlightCard';
 import { TransactionCard, TransactionCardProps } from '../../components/TransactionCard';
+import { useAuth } from '../../hooks/auth';
 import {
   Container,
   Header,
@@ -42,6 +43,9 @@ interface HighlightData {
 }
 
 export function Dashboard() {
+  const { signOut, user } = useAuth();
+
+  const dataKey = `@gofinances:transactions_user:${user.id}`;
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<DataListProps[]>([]);
   const [highlightData, setHighlightData] = useState<HighlightData>({} as HighlightData);
@@ -63,7 +67,6 @@ export function Dashboard() {
   }
 
   async function loadTransaction() {
-    const dataKey = '@gofinances:transactions';
     const response = await AsyncStorage.getItem(dataKey);
     const transactions = response ? JSON.parse(response) : [];
 
@@ -134,10 +137,6 @@ export function Dashboard() {
     }, [])
   );
 
-  function handleLogout() {
-    console.log('Logout');
-  }
-
   return (
     <Container>
       {isLoading ? (
@@ -149,13 +148,13 @@ export function Dashboard() {
           <Header>
             <UserWrapper>
               <UserInfo>
-                <Photo source={{ uri: 'https://github.com/evandroassisdev.png' }} />
+                <Photo source={{ uri: user.photo }} />
                 <User>
                   <UserGreeting>Olá,</UserGreeting>
-                  <UserName>Evandro</UserName>
+                  <UserName>{user.name}</UserName>
                 </User>
               </UserInfo>
-              <LogoutButton onPress={handleLogout}>
+              <LogoutButton onPress={signOut}>
                 <Icon name="power" />
               </LogoutButton>
             </UserWrapper>
